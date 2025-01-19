@@ -34,7 +34,7 @@ Trying to import from the relative path in your site's repo doesn't work.
 Learn more about [this repo's file structure](https://support.wix.com/en/article/velo-understanding-your-sites-github-repository-beta).
 
 ## permissions.json
-This file defines [permissions](https://support.wix.com/en/article/velo-about-web-module-permissions) for the functions in your web module files. The file contains a key, `"web-methods"`, whose value is an object that can contain keys named after the web module files in your `backend` folder. Name these keys with the following syntax: `"backend/{path to file}myFile.jsw"`. The value for each file name key is an object that can contain keys named after the functions in that file. Each function key has a value with the following format:
+This file defines [permissions](https://support.wix.com/en/article/velo-about-web-module-permissions) for the functions in your web module files. The file contains a key, `"web-methods"`, whose value is an object that can contain keys named after the web module files in your `backend` folder.[^def] Name these keys with the following syntax: `"backend/{path to file}myFile.jsw"`. The value for each file name key is an object that can contain keys named after the functions in that file. Each function key has a value with the following format:
 ```js
 "backend/myFile.jsw": {
   "siteOwner" : {
@@ -55,61 +55,4 @@ These values reflect the different levels of web module function permissions. Yo
 |Site member access| `true` | `true` | `false`|
 |Anyone can access| `true` | `true`| `true`|
 
-The `"web-methods"` object must also contain a `"*"` key. The value for this key defines the default permissions that are applied to any function whose permissions you don't set manually.
-
-Here is an example `permissions.json` file for a site with a backend file called `helperFunctions.jsw`. The file's functions are called `calculate`, `fetchData`, and `syncWithServer`. In this case anyone can call `calculate`, site members can call `syncWithServer`, and only site owners can call `fetchData`.
-
-```json
-{
-  "web-methods": {
-    "*": {
-      "*": {
-        "siteOwner": {
-          "invoke": true
-        },
-        "siteMember": {
-          "invoke": true
-        },
-        "anonymous": {
-          "invoke": true
-        }
-      }
-    },
-    "backend/helperFunctions.jsw": {
-      "calculate": {
-        "siteOwner": {
-          "invoke": true
-        },
-        "siteMember": {
-          "invoke": true
-        },
-        "anonymous": {
-          "invoke": true
-        }
-      },
-      "fetchData": {
-        "siteOwner": {
-          "invoke": true
-        },
-        "siteMember": {
-          "invoke": false
-        },
-        "anonymous": {
-          "invoke": false
-        }
-      },
-      "syncWithServer": {
-        "siteOwner": {
-          "invoke": true
-        },
-        "siteMember": {
-          "invoke": true
-        },
-        "anonymous": {
-          "invoke": false
-        }
-      }
-    }
-  }
-}
-```
+[^def]: The `"web-methods"` object must also contain a `"*"` key. The value for this key defines the default permissions that are applied to any function whose permissions you don't set manually.
